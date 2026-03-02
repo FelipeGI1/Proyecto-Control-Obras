@@ -27,6 +27,19 @@ export const Dashboard = () => {
               + Crear Nueva Plantilla
             </Link>
           </div>
+
+          {/* Tarjeta para Iniciar Inspección (Supervisor) */}
+          <div className="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow bg-green-50">
+            <h2 className="text-xl font-bold text-green-800 mb-2">Terreno: Iniciar Control</h2>
+            <p className="text-gray-600 mb-4">Abre un nuevo protocolo para inspeccionar un departamento o área.</p>
+            
+            <Link 
+              to="/protocols/start" 
+              className="inline-block bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700"
+            >
+              📋 Nueva Inspección
+            </Link>
+          </div>
           
           {/* Aquí irán más tarjetas en el futuro (ej. Llenar Protocolo) */}
         </div>
