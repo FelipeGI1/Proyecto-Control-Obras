@@ -4,18 +4,18 @@ import { api } from '../../services/api';
 import { Button } from '../../components/common/Button';
 
 export const ProtocolFill = () => {
-  const { templateId } = useParams(); // Obtenemos el ID de la URL
+  const { templateId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Recuperamos los datos de ubicación que pasamos desde la pantalla anterior
   const locationData = location.state?.locationData || {};
 
   const [template, setTemplate] = useState<any>(null);
   
-  // Será un objeto así: { "1": "SI", "2": "NA", "3": "Cocina americana" }
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
+
+  const [instanceId, setInstanceId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTemplate = async () => {
@@ -40,9 +40,26 @@ export const ProtocolFill = () => {
     }));
   };
 
-  const handleSave = () => {
-    console.log("Respuestas listas para guardar:", answers);
-    alert("Revisa la consola (F12) para ver el estado de las respuestas.");
+const handleSave = async () => {
+    try {
+      const payload = {
+        instanceId, // Será null la primera vez, y un UUID las siguientes
+        templateId,
+        locationData,
+        answers
+      };
+
+      // Enviamos al backend
+      const response = await api.post('/instances/draft', payload);
+      
+      // El backend nos devuelve el borrador guardado. Guardamos su ID.
+      setInstanceId(response.data.id);
+      
+      alert("¡Borrador guardado exitosamente!");
+    } catch (error) {
+      console.error("Error al guardar el borrador:", error);
+      alert("Hubo un error al guardar");
+    }
   };
 
   if (isLoading) return <div className="p-8 text-center text-gray-600">Cargando protocolo...</div>;
