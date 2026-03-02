@@ -41,4 +41,25 @@ export class InstancesService {
       return await this.instanceRepo.save(newInstance);
     }
   }
+
+  async updateStatus(id: string, newStatus: string) {
+    const instance = await this.instanceRepo.findOneBy({ id });
+    if (!instance) {
+      throw new NotFoundException('Instancia no encontrada');
+    }
+
+    // Actualizamos el estado
+    instance.status = newStatus;
+    
+    // Guardamos y retornamos la instancia actualizada
+    return await this.instanceRepo.save(instance);
+  }
+
+  async findAll() {
+    return await this.instanceRepo.find({
+      order: {
+        updatedAt: 'DESC' 
+      }
+    });
+  }
 }
