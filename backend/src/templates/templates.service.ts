@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTemplateDto } from './dto/create-template.dto';
-import { UpdateTemplateDto } from './dto/update-template.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProtocolTemplate } from './entities/template.entity';
 
 @Injectable()
 export class TemplatesService {
-  create(createTemplateDto: CreateTemplateDto) {
-    return 'This action adds a new template';
+  constructor(
+    @InjectRepository(ProtocolTemplate)
+    private templatesRepository: Repository<ProtocolTemplate>,
+  ) {}
+
+  async create(createTemplateDto: any) {
+    const newTemplate = this.templatesRepository.create(createTemplateDto);
+    return await this.templatesRepository.save(newTemplate);
   }
 
-  findAll() {
-    return `This action returns all templates`;
+  async findAll() {
+    return await this.templatesRepository.find({
+      relations: ['sections', 'sections.items'],
+      order: {
+        createdAt: 'DESC',
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} template`;
-  }
+  // También optimizamos la búsqueda individual
+  async findOne(id: number) {
+    const template = await this.templatesRepository.findOne({
+      where: { id },
+      relations: ['sections', 'sections.items'],
+    });
 
-  update(id: number, updateTemplateDto: UpdateTemplateDto) {
-    return `This action updates a #${id} template`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} template`;
+    if (!template) {
+      throw new NotFoundException(`La plantilla #${id} no existe`);
+    }
+    return template;
   }
 }

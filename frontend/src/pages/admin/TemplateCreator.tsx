@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import type { ProtocolSection } from '../../utils/types';
+import { api } from '../../services/api';
 
 export const TemplateCreator = () => {
   const [templateName, setTemplateName] = useState('');
@@ -23,7 +24,6 @@ export const TemplateCreator = () => {
     ));
   };
 
-  // ACTUALIZADO: Ahora los ítems nacen con type 'CHECK' por defecto
   const addItemToSection = (sectionId: string) => {
     setSections(sections.map(sec => {
       if (sec.id === sectionId) {
@@ -50,7 +50,6 @@ export const TemplateCreator = () => {
     }));
   };
 
-  // NUEVO: Función para cambiar entre CHECK y TEXT
   const updateItemType = (sectionId: string, itemId: string, newType: 'CHECK' | 'TEXT') => {
     setSections(sections.map(sec => {
       if (sec.id === sectionId) {
@@ -66,13 +65,31 @@ export const TemplateCreator = () => {
   };
 
   const handleSave = async () => {
-    const finalTemplate = {
-      name: templateName,
-      description,
-      sections
-    };
-    console.log("JSON final armado:", finalTemplate);
-    alert("Revisa la consola (F12) para ver la estructura actualizada.");
+    try {
+      const finalTemplate = {
+        name: templateName,
+        description,
+        sections: sections.map(sec => ({
+          name: sec.name,
+          items: sec.items.map(item => ({
+            name: item.name,
+            itemType: item.type
+          }))
+        }))
+      };
+
+      await api.post('/templates', finalTemplate);
+      
+      alert("¡Plantilla guardada con éxito en la Base de Datos!");
+      
+      setTemplateName('');
+      setDescription('');
+      setSections([]);
+      
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      alert("Hubo un error al guardar la plantilla.");
+    }
   };
 
   return (

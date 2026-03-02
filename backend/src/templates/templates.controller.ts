@@ -1,14 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { TemplatesService } from './templates.service';
-import { CreateTemplateDto } from './dto/create-template.dto';
-import { UpdateTemplateDto } from './dto/update-template.dto';
 
 @Controller('templates')
 export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
   @Post()
-  create(@Body() createTemplateDto: CreateTemplateDto) {
+  create(@Body() createTemplateDto: any) {
     return this.templatesService.create(createTemplateDto);
   }
 
@@ -20,15 +18,5 @@ export class TemplatesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.templatesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
-    return this.templatesService.update(+id, updateTemplateDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.templatesService.remove(+id);
   }
 }
