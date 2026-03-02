@@ -1,6 +1,7 @@
 export interface ProtocolItem {
   id: string;
   name: string;
+  type: 'CHECK' | 'TEXT';
 }
 
 export interface ProtocolSection {
