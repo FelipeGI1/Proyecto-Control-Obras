@@ -19,4 +19,9 @@ export class InstancesController {
   findAll() {
     return this.instancesService.findAll();
   }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.instancesService.findOne(id);
+  }
 }

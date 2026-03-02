@@ -41,6 +41,23 @@ export const Dashboard = () => {
             </Link>
           </div>
           
+          {/* Tarjeta Temporal para probar la revisión */}
+          <div className="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow bg-yellow-50">
+            <h2 className="text-xl font-bold text-yellow-800 mb-2">Bandeja de Revisión</h2>
+            <p className="text-gray-600 mb-4">Revisa los protocolos enviados por los supervisores.</p>
+            
+            <button 
+              onClick={() => {
+                // Aquí deberías pegar el ID (UUID) de la instancia que enviaste a revisión en el paso anterior. 
+                // Ej: 'b5b3e486-df85-4e58-9bdc-155f3cdff...'
+                const id = prompt("Pega el UUID de la instancia a revisar:");
+                if (id) window.location.href = `/protocols/review/${id}`;
+              }}
+              className="inline-block bg-yellow-600 text-white font-semibold py-2 px-4 rounded hover:bg-yellow-700"
+            >
+              🔍 Abrir un Protocolo
+            </button>
+          </div>
           {/* Aquí irán más tarjetas en el futuro (ej. Llenar Protocolo) */}
         </div>
       </div>

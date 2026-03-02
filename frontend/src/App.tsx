@@ -4,6 +4,7 @@ import { TemplateCreator } from './pages/admin/TemplateCreator';
 import { Dashboard } from './pages/Dashboard';
 import { ProtocolStart } from './pages/protocols/ProtocolStart';
 import { ProtocolFill } from './pages/protocols/ProtocolFill';
+import { ProtocolReview } from './pages/protocols/ProtocolReview';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/admin/templates/new" element={<TemplateCreator />} />
         <Route path="/protocols/start" element={<ProtocolStart />} />
         <Route path="/protocols/fill/:templateId" element={<ProtocolFill />} />
+        <Route path="/protocols/review/:instanceId" element={<ProtocolReview />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>

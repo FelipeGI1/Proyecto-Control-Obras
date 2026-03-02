@@ -62,4 +62,14 @@ export class InstancesService {
       }
     });
   }
+
+  async findOne(id: string) {
+    const instance = await this.instanceRepo.findOne({
+      where: { id },
+      relations: ['answers'], // Hacemos un JOIN automático con la tabla de respuestas
+    });
+
+    if (!instance) throw new NotFoundException('Instancia no encontrada');
+    return instance;
+  }
 }
