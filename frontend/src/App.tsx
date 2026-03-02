@@ -3,6 +3,7 @@ import { Login } from './pages/Login';
 import { TemplateCreator } from './pages/admin/TemplateCreator';
 import { Dashboard } from './pages/Dashboard';
 import { ProtocolStart } from './pages/protocols/ProtocolStart';
+import { ProtocolFill } from './pages/protocols/ProtocolFill';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin/templates/new" element={<TemplateCreator />} />
         <Route path="/protocols/start" element={<ProtocolStart />} />
+        <Route path="/protocols/fill/:templateId" element={<ProtocolFill />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>

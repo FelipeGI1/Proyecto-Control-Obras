@@ -122,7 +122,7 @@ export const ProtocolStart = () => {
           </div>
 
           <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3 text-lg">
-            Comenzar inspección 
+            Comenzar inspección
           </Button>
         </form>
       </div>
